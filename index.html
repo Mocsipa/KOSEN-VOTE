@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#10044f" />
 <title>KOSEN KMITL Vote</title>
 <style>
-:root{--vote-size:290px;
+:root{--vote-size:290px;--vote-y:4px;--vote-gap:62px;
   --bg:#120652;--bg2:#090f2f;--panel:#09142f;--panel2:#0d1838;--line:#2d3858;
   --blue:#1e8df4;--blue2:#58a6ff;--orange:#f15a24;--white:#fff;--muted:#aeb7cf;
   --mecha:#c85ce7;--computer:#ff575d;--electrical:#7adb4c;--green:#15b64f;--danger:#ef3e45;
@@ -70,8 +70,16 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
 @media(max-width:1000px){.top-actions{right:24px;bottom:24px;gap:12px}#fullscreenBtn{width:68px;height:68px}#fullscreenBtn .ico{font-size:32px}#settingsBtn{width:84px;height:84px}#settingsBtn .ico{font-size:50px}.tool-btn{width:62px;height:62px}.cards{gap:26px}.vote-circle{width:245px;font-size:82px}.label{font-size:21px}}
 @media(max-width:720px){html,body{overflow:auto}.app{min-height:100dvh;height:auto}.content{min-height:100dvh;padding:18px 16px 18px}.top-actions{position:absolute;right:18px;bottom:18px;margin:0;align-self:auto;gap:10px}#fullscreenBtn{width:60px;height:60px;border-width:4px}#fullscreenBtn .ico{font-size:28px}#fullscreenBtn small{font-size:8px}#settingsBtn{width:72px;height:72px;border-width:5px}#settingsBtn .ico{font-size:42px}.brand{height:64px;margin-top:-44px}.cards{grid-template-columns:1fr;gap:15px}.vote-circle{width:180px;font-size:64px}.label{font-size:19px;min-height:auto;margin-top:8px}.subtitle{font-size:23px;margin-bottom:12px}h1{font-size:34px}.bottom{margin-top:22px}.activity-select{min-width:0;width:86vw;font-size:17px}.blob.tl{width:145px;height:170px}.dots{opacity:.45}.settings-layout{grid-template-columns:1fr}.side-nav{border-right:0;border-bottom:1px solid #2c3857;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.nav-btn{margin:0}.summary-top{grid-template-columns:auto 1fr auto}.summary-top .left img{height:32px}.summary-top h2{font-size:16px;text-align:center}.settings-window,.summary-window{max-height:94dvh;overflow:auto}}
 
-/* User-adjustable vote button size. This rule intentionally overrides responsive presets. */
+/* User-adjustable vote layout. These rules intentionally override responsive presets. */
 .vote-circle{width:var(--vote-size,290px)!important;font-size:calc(var(--vote-size,290px) * .286)!important}
+.cards{
+  gap:var(--vote-gap,62px)!important;
+  margin-top:var(--vote-y,4px)!important;
+  width:min(100%, calc(var(--vote-size,290px) + var(--vote-size,290px) + var(--vote-size,290px) + var(--vote-gap,62px) + var(--vote-gap,62px)))!important;
+}
+.layout-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.layout-grid .display-control{margin-top:0}
+@media(max-width:760px){.layout-grid{grid-template-columns:1fr}}
 .display-control{background:#111d38;border:1px solid #2d3b5d;border-radius:10px;padding:18px;margin-top:12px}
 .display-control label{display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:800;margin-bottom:14px}
 .display-control input[type="range"]{width:100%;accent-color:#2f91f5;cursor:pointer}
@@ -129,7 +137,7 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
       <div class="settings-layout">
         <aside class="side-nav">
           <button class="nav-btn active" data-tab="activities">▣ &nbsp; Activities</button>
-          <button class="nav-btn" data-tab="display">◉ &nbsp; Vote Button Size</button>
+          <button class="nav-btn" data-tab="display">◉ &nbsp; Vote Layout</button>
           <button class="nav-btn" data-tab="summary">▥ &nbsp; Summary</button>
           <button class="nav-btn" data-tab="pin">♧ &nbsp; Change PIN</button>
           <button class="nav-btn" data-tab="export">⇩ &nbsp; Export CSV</button>
@@ -144,8 +152,8 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
             <p class="help">Each activity stores its own vote totals. Select an activity from the main screen before voting.</p>
           </div>
           <div class="tab-pane" id="tab-display">
-            <div class="settings-head"><h3>Vote Button Size</h3></div>
-            <p class="help">ปรับขนาดปุ่มโหวตบนหน้าหลัก การตั้งค่านี้จะถูกบันทึกไว้ในเครื่องนี้อัตโนมัติ</p>
+            <div class="settings-head"><h3>Vote Layout</h3></div>
+            <p class="help">ปรับขนาด ตำแหน่งแนวตั้ง และระยะห่างของปุ่มโหวต การตั้งค่าจะถูกบันทึกไว้ในเครื่องนี้อัตโนมัติ</p>
             <div class="display-control">
               <label><span>Button diameter</span><strong id="voteSizeValue">290 px</strong></label>
               <input id="voteSizeSlider" type="range" min="160" max="420" step="10" value="290">
@@ -156,6 +164,28 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
                 <button class="size-preset" data-size="410">Extra Large</button>
               </div>
               <div class="size-preview"><div class="size-preview-dot" id="sizePreview">Vote</div></div>
+            </div>
+            <div class="layout-grid">
+              <div class="display-control">
+                <label><span>Vertical position</span><strong id="voteYValue">4 px</strong></label>
+                <input id="voteYSlider" type="range" min="-80" max="280" step="5" value="4">
+                <p class="help">เลื่อนไปทางขวาเพื่อย้ายปุ่มโหวตลงด้านล่างให้ใกล้กึ่งกลางหน้าจอ</p>
+                <div class="size-actions">
+                  <button class="ghost-btn position-preset" data-y="0">Top</button>
+                  <button class="ghost-btn position-preset" data-y="100">Middle</button>
+                  <button class="ghost-btn position-preset" data-y="180">Lower</button>
+                </div>
+              </div>
+              <div class="display-control">
+                <label><span>Button spacing</span><strong id="voteGapValue">62 px</strong></label>
+                <input id="voteGapSlider" type="range" min="0" max="220" step="5" value="62">
+                <p class="help">กำหนดระยะห่างระหว่างปุ่มทั้ง 3 ปุ่ม</p>
+                <div class="size-actions">
+                  <button class="ghost-btn gap-preset" data-gap="20">Close</button>
+                  <button class="ghost-btn gap-preset" data-gap="70">Normal</button>
+                  <button class="ghost-btn gap-preset" data-gap="140">Wide</button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="tab-pane" id="tab-summary">
@@ -200,8 +230,15 @@ let state=loadState(), pinBuffer='', toastTimer;
 const $=id=>document.getElementById(id);
 function clone(v){return JSON.parse(JSON.stringify(v))}
 const VOTE_SIZE_KEY='kosen_vote_button_size_v1';
-function getVoteSize(){const n=parseInt(localStorage.getItem(VOTE_SIZE_KEY)||'290',10);return Math.max(160,Math.min(420,Number.isFinite(n)?n:290))}
-function applyVoteSize(size,save=true){size=Math.max(160,Math.min(420,parseInt(size,10)||290));document.documentElement.style.setProperty('--vote-size',size+'px');const slider=$('voteSizeSlider'),value=$('voteSizeValue'),preview=$('sizePreview');if(slider)slider.value=size;if(value)value.textContent=size+' px';if(preview)preview.style.setProperty('--preview-size',Math.min(100,Math.max(55,size*.28))+'px');document.querySelectorAll('.size-preset').forEach(b=>b.classList.toggle('active',+b.dataset.size===size));if(save)localStorage.setItem(VOTE_SIZE_KEY,String(size))}
+const VOTE_Y_KEY='kosen_vote_vertical_position_v1';
+const VOTE_GAP_KEY='kosen_vote_button_gap_v1';
+function clamp(n,min,max,fallback){n=parseInt(n,10);return Math.max(min,Math.min(max,Number.isFinite(n)?n:fallback))}
+function getVoteSize(){return clamp(localStorage.getItem(VOTE_SIZE_KEY)||'290',160,420,290)}
+function getVoteY(){return clamp(localStorage.getItem(VOTE_Y_KEY)||'4',-80,280,4)}
+function getVoteGap(){return clamp(localStorage.getItem(VOTE_GAP_KEY)||'62',0,220,62)}
+function applyVoteSize(size,save=true){size=clamp(size,160,420,290);document.documentElement.style.setProperty('--vote-size',size+'px');const slider=$('voteSizeSlider'),value=$('voteSizeValue'),preview=$('sizePreview');if(slider)slider.value=size;if(value)value.textContent=size+' px';if(preview)preview.style.setProperty('--preview-size',Math.min(100,Math.max(55,size*.28))+'px');document.querySelectorAll('.size-preset').forEach(b=>b.classList.toggle('active',+b.dataset.size===size));if(save)localStorage.setItem(VOTE_SIZE_KEY,String(size))}
+function applyVoteY(y,save=true){y=clamp(y,-80,280,4);document.documentElement.style.setProperty('--vote-y',y+'px');if($('voteYSlider'))$('voteYSlider').value=y;if($('voteYValue'))$('voteYValue').textContent=y+' px';document.querySelectorAll('.position-preset').forEach(b=>b.classList.toggle('active',+b.dataset.y===y));if(save)localStorage.setItem(VOTE_Y_KEY,String(y))}
+function applyVoteGap(gap,save=true){gap=clamp(gap,0,220,62);document.documentElement.style.setProperty('--vote-gap',gap+'px');if($('voteGapSlider'))$('voteGapSlider').value=gap;if($('voteGapValue'))$('voteGapValue').textContent=gap+' px';document.querySelectorAll('.gap-preset').forEach(b=>b.classList.toggle('active',+b.dataset.gap===gap));if(save)localStorage.setItem(VOTE_GAP_KEY,String(gap))}
 
 function loadState(){
  try{let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const k of OLD_KEYS){raw=localStorage.getItem(k);if(raw)break}}
@@ -257,10 +294,16 @@ document.querySelectorAll('.key').forEach(k=>k.onclick=()=>{const v=k.dataset.k;
 $('pinClose').onclick=()=>closeModal('pinModal');
 document.addEventListener('keydown',e=>{if(!$('pinModal').classList.contains('show'))return;if(/^\d$/.test(e.key)&&pinBuffer.length<8){pinBuffer+=e.key;updatePinDots()}else if(e.key==='Backspace'){pinBuffer=pinBuffer.slice(0,-1);updatePinDots()}else if(e.key==='Enter')verifyPin()});
 
-/* vote button size settings */
+/* vote layout settings */
 applyVoteSize(getVoteSize(),false);
+applyVoteY(getVoteY(),false);
+applyVoteGap(getVoteGap(),false);
 $('voteSizeSlider').oninput=e=>applyVoteSize(e.target.value);
+$('voteYSlider').oninput=e=>applyVoteY(e.target.value);
+$('voteGapSlider').oninput=e=>applyVoteGap(e.target.value);
 document.querySelectorAll('.size-preset').forEach(b=>b.onclick=()=>applyVoteSize(b.dataset.size));
+document.querySelectorAll('.position-preset').forEach(b=>b.onclick=()=>applyVoteY(b.dataset.y));
+document.querySelectorAll('.gap-preset').forEach(b=>b.onclick=()=>applyVoteGap(b.dataset.gap));
 
 /* settings tabs */
 document.querySelectorAll('.nav-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));$('tab-'+btn.dataset.tab).classList.add('active');if(btn.dataset.tab==='summary')renderSummary()});
