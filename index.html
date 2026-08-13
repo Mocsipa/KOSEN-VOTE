@@ -3,116 +3,247 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+<meta name="theme-color" content="#10044f" />
 <title>KOSEN KMITL Vote</title>
 <style>
-  :root{--bg:#16005b;--blue:#4d98ff;--white:#fff;--mecha:#c75ce8;--computer:#ff5359;--electrical:#78dc4a;--muted:#d7d4f1}
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;width:100%;height:100%;background:#efeff3;font-family:Arial,Helvetica,sans-serif;overflow:hidden}
-  body{display:grid;place-items:center;padding:24px} button,select,input{font:inherit}
-  .app{position:relative;width:min(100%,1500px);height:min(100%,900px);min-height:650px;background:var(--bg);color:white;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.18)}
-  .blob{position:absolute;pointer-events:none}.blob.tl{width:235px;height:300px;left:-30px;top:-10px;background:#85aef0;border-radius:0 0 55% 0/0 0 35% 0;transform:rotate(-6deg)}
-  .dots{position:absolute;right:18px;top:18px;width:150px;height:190px;opacity:.95}.dots i{position:absolute;width:28px;height:58px;border-radius:30px;background:#559dff;transform:rotate(42deg)}
-  .dots i:nth-child(1){right:78px;top:-10px}.dots i:nth-child(2){right:15px;top:35px}.dots i:nth-child(3){right:88px;top:78px}.dots i:nth-child(4){right:25px;top:120px}
-  .swirl{position:absolute;left:-58px;bottom:-65px;width:340px;height:260px;border:6px solid #59a2ff;border-radius:50%;transform:rotate(26deg)}
-  .swirl:before,.swirl:after{content:"";position:absolute;border:6px solid #59a2ff;border-radius:50%}.swirl:before{inset:42px 50px}.swirl:after{inset:88px 100px}
-  .squiggle{position:absolute;right:-20px;bottom:-35px;width:280px;height:170px;border:28px solid white;border-left-color:transparent;border-top-color:transparent;border-radius:50%;transform:rotate(-18deg)}
-  .content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;padding:32px 60px 24px}
-  .brand{margin-top:4px;height:108px;display:flex;align-items:center;justify-content:center}.brand img{display:block;width:auto;height:100%;max-width:360px;object-fit:contain}
-  h1{font-size:clamp(44px,5vw,74px);margin:24px 0 4px;font-weight:1000;letter-spacing:1px;text-align:center}.subtitle{font-size:clamp(28px,3vw,46px);margin:0 0 34px;font-weight:400}
-  .cards{display:grid;grid-template-columns:repeat(3,minmax(210px,1fr));gap:70px;width:min(100%,980px);align-items:start}.card{text-align:center}
-  .vote-circle{width:230px;aspect-ratio:1;border-radius:50%;border:9px solid white;color:white;font-size:86px;font-weight:500;display:grid;place-items:center;margin:auto;cursor:pointer;transition:.12s transform,.12s filter;box-shadow:0 4px 0 rgba(255,255,255,.25) inset}
-  .vote-circle:active{transform:scale(.94);filter:brightness(1.1)}.card:nth-child(1) .vote-circle{background:var(--mecha)}.card:nth-child(2) .vote-circle{background:var(--computer)}.card:nth-child(3) .vote-circle{background:var(--electrical)}
-  .label{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:28px;line-height:1.5;margin-top:24px;min-height:86px}
-  .bottom{margin-top:auto;display:flex;align-items:center;gap:14px;padding-bottom:8px}.activity-select{min-width:420px;max-width:55vw;border:0;border-radius:999px;background:#3796ff;color:#071637;font-weight:800;font-size:24px;padding:14px 56px 14px 28px;text-align:center;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 28px) 50%,calc(100% - 15px) 50%;background-size:14px 14px,14px 14px;background-repeat:no-repeat;box-shadow:0 6px 18px rgba(0,0,0,.14)}
-  .icon-btn{width:78px;height:78px;border:8px solid white;border-radius:50%;background:#3796ff;color:#132746;display:grid;place-items:center;font-size:46px;cursor:pointer;line-height:1;transition:.12s transform}.icon-btn:active{transform:scale(.94)}
-  .toast{position:absolute;left:50%;bottom:115px;transform:translateX(-50%) translateY(20px);background:rgba(15,10,45,.93);border:1px solid rgba(255,255,255,.18);padding:14px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.2s;font-weight:700;z-index:40}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .modal{position:absolute;inset:0;z-index:20;background:rgba(8,3,30,.82);display:none;align-items:center;justify-content:center;padding:26px;backdrop-filter:blur(8px)}.modal.show{display:flex}
-  .panel{width:min(820px,96vw);max-height:90%;overflow:auto;background:#fff;color:#15152b;border-radius:28px;padding:28px;box-shadow:0 20px 70px rgba(0,0,0,.35)}.panel h2{margin:0 0 8px;font-size:32px}.panel p{margin-top:0;color:#666}
-  .row{display:flex;gap:10px;align-items:center}.row input{flex:1;border:2px solid #ddd;border-radius:16px;padding:14px 16px;font-size:20px}.pin-input{letter-spacing:10px;text-align:center;font-size:30px!important;font-weight:800}
-  .btn{border:0;border-radius:16px;padding:14px 18px;font-weight:800;font-size:18px;cursor:pointer}.primary{background:#3796ff;color:white}.danger{background:#ff4d5d;color:white}.soft{background:#ecebfa;color:#2b2850}.success{background:#31b76a;color:white}
-  .activity-list{display:grid;gap:10px;margin:20px 0}.activity-item{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:12px;border-radius:16px;background:#f4f3fb}.activity-item .name{font-weight:800;font-size:18px}.activity-item .mini{font-size:14px;color:#666}
-  .divider{height:1px;background:#e7e7ef;margin:20px 0}.settings-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}.left-actions,.right-actions{display:flex;flex-wrap:wrap;gap:10px}.hint{font-size:13px;color:#777;margin-top:10px}
-  .summary-panel{width:min(1050px,96vw)}.summary-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.summary-table-wrap{overflow:auto;margin-top:18px;border-radius:18px;border:1px solid #e3e3ed}.summary-table{width:100%;border-collapse:collapse;min-width:760px}.summary-table th,.summary-table td{padding:14px 12px;border-bottom:1px solid #ececf3;text-align:center}.summary-table th{background:#f3f2fb;color:#322b67;position:sticky;top:0}.summary-table td:first-child,.summary-table th:first-child{text-align:left;font-weight:800}.summary-table tr:last-child td{border-bottom:0}.grand-total{margin-top:16px;padding:16px 18px;border-radius:16px;background:#16005b;color:white;font-weight:800;font-size:20px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-  .pin-panel{width:min(430px,92vw);text-align:center}.pin-error{min-height:22px;color:#d62839;font-weight:700;margin:10px 0 0}.pin-actions{display:flex;gap:10px;justify-content:center;margin-top:16px}
-  @media (max-width:900px){body{padding:0}.app{width:100%;height:100%;min-height:100dvh}.content{padding:24px 22px 18px}.cards{gap:22px}.vote-circle{width:190px;font-size:70px}.label{font-size:22px}.activity-select{min-width:min(70vw,420px)}}
-  @media (max-width:680px){html,body{overflow:auto}.app{height:auto;min-height:100dvh;overflow:hidden}.content{min-height:100dvh}.brand{height:78px}.brand img{max-width:270px}h1{font-size:36px;margin-top:16px}.subtitle{font-size:24px;margin-bottom:22px}.cards{grid-template-columns:1fr;gap:18px;width:100%}.vote-circle{width:160px;font-size:62px}.label{margin-top:10px;min-height:auto;font-size:21px}.bottom{margin-top:24px;width:100%;justify-content:center}.activity-select{min-width:0;width:calc(100% - 90px);font-size:18px}.icon-btn{width:64px;height:64px;font-size:38px}.blob.tl{width:150px;height:180px}.swirl{opacity:.45}.squiggle{opacity:.8}.activity-item{grid-template-columns:1fr 1fr}.activity-item>div{grid-column:1/-1}.settings-actions{display:block}.left-actions,.right-actions{margin-top:10px}.btn{font-size:16px}}
+:root{
+  --bg:#120652;--bg2:#090f2f;--panel:#09142f;--panel2:#0d1838;--line:#2d3858;
+  --blue:#1e8df4;--blue2:#58a6ff;--orange:#f15a24;--white:#fff;--muted:#aeb7cf;
+  --mecha:#c85ce7;--computer:#ff575d;--electrical:#7adb4c;--green:#15b64f;--danger:#ef3e45;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;margin:0;background:#050716;font-family:Inter,Arial,Helvetica,sans-serif;overflow:hidden}
+button,input,select{font:inherit}
+button{touch-action:manipulation}
+.app{position:relative;width:100vw;height:100dvh;min-height:650px;overflow:hidden;background:
+ radial-gradient(circle at 43% 42%,rgba(51,31,160,.18),transparent 28%),
+ linear-gradient(160deg,#17045e 0%,#10034a 58%,#12014a 100%);color:#fff}
+
+/* decorative shapes */
+.blob{position:absolute;pointer-events:none}.blob.tl{width:240px;height:310px;left:-28px;top:-16px;background:#81acf1;border-radius:0 0 58% 0/0 0 40% 0;transform:rotate(-5deg)}
+.dots{position:absolute;right:2.5vw;top:4vh;width:150px;height:170px}.dots i{position:absolute;width:25px;height:52px;border-radius:30px;background:#559dff;transform:rotate(42deg)}
+.dots i:nth-child(1){right:82px;top:-12px}.dots i:nth-child(2){right:18px;top:32px}.dots i:nth-child(3){right:88px;top:74px}.dots i:nth-child(4){right:28px;top:118px}
+.swirl{position:absolute;left:-72px;bottom:-95px;width:340px;height:270px;border:5px solid #55a4ff;border-radius:50%;transform:rotate(28deg);opacity:.95}
+.swirl:before,.swirl:after{content:"";position:absolute;border:5px solid #55a4ff;border-radius:50%}.swirl:before{inset:44px 53px}.swirl:after{inset:92px 108px}
+.squiggle{position:absolute;right:-22px;bottom:-44px;width:290px;height:180px;border:27px solid white;border-left-color:transparent;border-top-color:transparent;border-radius:50%;transform:rotate(-18deg)}
+
+/* main */
+.content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;padding:25px 42px 24px}
+.brand{height:88px;margin-top:4px;display:flex;align-items:center;justify-content:center}.brand img{height:100%;width:auto;max-width:330px;object-fit:contain}
+h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight:950;letter-spacing:.5px;text-align:center}
+.subtitle{font-size:clamp(25px,2.8vw,44px);font-weight:400;letter-spacing:1px;margin-bottom:24px}
+.top-actions{position:absolute;right:32px;top:23px;z-index:5;display:flex;gap:12px}
+.tool-btn{width:70px;height:70px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(4,12,37,.7);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.16)}
+.tool-btn .ico{font-size:30px;line-height:1}.tool-btn small{font-size:9px;font-weight:900;letter-spacing:.4px}.tool-btn:active{transform:scale(.96)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(200px,1fr));gap:62px;width:min(100%,930px);align-items:start;margin-top:4px}
+.card{text-align:center}.vote-circle{width:225px;aspect-ratio:1;border:8px solid white;border-radius:50%;display:grid;place-items:center;margin:auto;color:#fff;font-size:83px;font-weight:500;cursor:pointer;box-shadow:0 6px 0 rgba(255,255,255,.16) inset,0 7px 18px rgba(0,0,0,.12);transition:transform .12s,filter .12s}
+.vote-circle:active{transform:scale(.94);filter:brightness(1.08)}
+.card:nth-child(1) .vote-circle{background:var(--mecha)}.card:nth-child(2) .vote-circle{background:var(--computer)}.card:nth-child(3) .vote-circle{background:var(--electrical)}
+.label{font-weight:800;font-size:26px;line-height:1.34;margin-top:22px;min-height:90px}
+.bottom{margin-top:auto;display:flex;align-items:center;justify-content:center;padding-bottom:8px}.activity-select{min-width:390px;max-width:55vw;border:0;border-radius:999px;background:#1e8df4;color:white;font-weight:700;font-size:22px;padding:13px 58px 13px 26px;text-align:center;appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);background-position:calc(100% - 31px) 50%,calc(100% - 18px) 50%;background-size:13px 13px,13px 13px;background-repeat:no-repeat;box-shadow:0 6px 18px rgba(0,0,0,.14)}
+.toast{position:absolute;left:50%;bottom:110px;z-index:100;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:#071329;border:1px solid #273756;border-radius:999px;padding:12px 20px;font-weight:800;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* modal shells */
+.modal{position:absolute;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(0,3,18,.82);backdrop-filter:blur(8px)}.modal.show{display:flex}
+.window{width:min(940px,96vw);max-height:92vh;border:1px solid #26385d;border-radius:11px;background:linear-gradient(160deg,#0b1735,#08112a);box-shadow:0 26px 80px rgba(0,0,0,.48);overflow:hidden;color:#fff}
+.window-titlebar{height:58px;border-bottom:1px solid #27365b;display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 20px}.window-titlebar h2{font-size:20px;margin:0}.close-x{border:0;background:transparent;color:#fff;font-size:30px;cursor:pointer;width:40px;height:40px}
+.modal-logo{height:44px;width:auto;object-fit:contain}
+
+/* PIN */
+.pin-window{width:min(530px,94vw);padding:18px 42px 28px;text-align:center}.pin-logo{height:55px;margin:4px auto 10px}.pin-window h2{font-size:24px;margin:8px 0 10px}.pin-window p{color:var(--muted);margin:0 0 18px;font-size:14px}.pin-dots{display:flex;gap:11px;justify-content:center;margin:0 auto 26px}.pin-dot{width:53px;height:53px;border-radius:7px;background:#192544;border:1px solid #263453;display:grid;place-items:center;font-size:25px;font-weight:800}.pin-dot.filled{color:#fff}.keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:310px;margin:auto}.key{height:44px;border:1px solid #2a3858;background:#1a2746;color:white;border-radius:5px;font-weight:800;cursor:pointer}.key.enter{background:#1174ea}.pin-error{height:22px;color:#ff7278;font-size:13px;margin-top:8px}
+
+/* settings */
+.settings-window{width:min(980px,96vw)}.settings-layout{display:grid;grid-template-columns:180px minmax(0,1fr);min-height:350px;min-width:0}.side-nav{border-right:1px solid #2c3857;padding:14px 10px;background:#09132b}.nav-btn{width:100%;height:45px;border:1px solid #2d3957;border-radius:5px;background:#17233f;color:#fff;text-align:left;padding:0 14px;margin-bottom:8px;font-weight:700;cursor:pointer}.nav-btn.active{background:#0a70ec;border-color:#167ff6}.nav-btn.danger{color:#ff7377}.settings-main{padding:18px 20px 24px;min-width:0;overflow:hidden}.settings-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.settings-head h3{margin:0;font-size:16px}.add-btn,.primary-btn,.green-btn,.red-btn,.ghost-btn{border:0;border-radius:6px;padding:10px 15px;font-weight:800;cursor:pointer}.add-btn,.primary-btn{background:#1177ee;color:#fff}.green-btn{background:#18b74d;color:#fff}.red-btn{background:#d9353e;color:#fff}.ghost-btn{background:#202d4b;color:#fff;border:1px solid #33405c}
+.activity-list{display:grid;gap:9px}.activity-item{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;background:#18223e;border:1px solid #273451;border-radius:6px;padding:9px 10px}.activity-title{font-size:13px;font-weight:700}.activity-meta{font-size:10px;color:#8996b4;margin-top:3px}.mini-btn{width:34px;height:32px;border:0;border-radius:5px;background:#273450;color:white;cursor:pointer}.mini-btn.delete{color:#ff6469}.settings-footer{margin-top:16px;display:flex;justify-content:flex-end;gap:9px}.tab-pane{display:none}.tab-pane.active{display:block}.form-row{display:flex;gap:10px;margin:12px 0}.form-row input{flex:1;min-width:0;background:#111d38;color:#fff;border:1px solid #32405f;border-radius:6px;padding:11px}.help{font-size:12px;color:#93a0bc;line-height:1.5}.danger-zone{border:1px solid #55333a;background:#241721;border-radius:8px;padding:14px;margin-top:14px}
+
+/* summary */
+.summary-window{width:min(1020px,97vw);background:linear-gradient(165deg,#111958,#07132d)}.summary-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid #253456;padding:10px 18px}.summary-top .left{justify-self:start}.summary-top h2{margin:0;font-size:21px}.summary-top .right{justify-self:end;display:flex;gap:10px}.summary-content{padding:16px 18px 18px;min-width:0}.table-wrap{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;border:1px solid #31405e;border-radius:8px}.summary-table{width:100%;max-width:100%;border-collapse:collapse;table-layout:fixed;min-width:0}.summary-table th,.summary-table td{border-right:1px solid #2b3957;border-bottom:1px solid #2b3957;padding:11px 7px;text-align:center;overflow-wrap:anywhere;word-break:break-word}.summary-table th:last-child,.summary-table td:last-child{border-right:0}.summary-table th{font-size:11px;line-height:1.25;background:#172443}.summary-table td{font-size:12px}.summary-table th:nth-child(1),.summary-table td:nth-child(1){width:42px}.summary-table th:nth-child(2),.summary-table td:nth-child(2){width:25%}.summary-table th:nth-child(3),.summary-table td:nth-child(3),.summary-table th:nth-child(4),.summary-table td:nth-child(4),.summary-table th:nth-child(5),.summary-table td:nth-child(5){width:17%}.summary-table th:nth-child(6),.summary-table td:nth-child(6){width:11%}.summary-table th.activity,.summary-table td.activity{text-align:left}.summary-table .m{color:#dc73ee}.summary-table .c{color:#ff666a}.summary-table .e{color:#72df59}.grand td{font-weight:900;font-size:17px}.last-updated{text-align:center;color:#7684a3;font-size:12px;margin-top:13px}
+
+/* export modal */
+.export-window{width:min(520px,94vw);padding:26px 34px 24px;text-align:center}.check{width:70px;height:70px;border-radius:50%;background:#27b85c;margin:0 auto 17px;display:grid;place-items:center;font-size:43px;font-weight:900}.export-window h2{font-size:27px;margin:0 0 8px}.export-window p{color:#c8d0e3;margin:5px 0}.export-file{color:#20d95a!important;font-weight:850;word-break:break-word}.export-actions{display:grid;grid-template-columns:1fr 1.15fr;gap:12px;margin-top:22px}.export-tip{font-size:11px;color:#7985a0;margin-top:14px}
+
+@media(max-width:1000px){.top-actions{right:16px}.tool-btn{width:62px;height:62px}.cards{gap:26px}.vote-circle{width:195px;font-size:70px}.label{font-size:21px}}
+@media(max-width:720px){html,body{overflow:auto}.app{min-height:100dvh;height:auto}.content{min-height:100dvh;padding:18px 16px 18px}.top-actions{position:static;margin-left:auto;align-self:flex-end}.brand{height:64px;margin-top:-44px}.cards{grid-template-columns:1fr;gap:15px}.vote-circle{width:145px;font-size:56px}.label{font-size:19px;min-height:auto;margin-top:8px}.subtitle{font-size:23px;margin-bottom:12px}h1{font-size:34px}.bottom{margin-top:22px}.activity-select{min-width:0;width:86vw;font-size:17px}.blob.tl{width:145px;height:170px}.dots{opacity:.45}.settings-layout{grid-template-columns:1fr}.side-nav{border-right:0;border-bottom:1px solid #2c3857;display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.nav-btn{margin:0}.summary-top{grid-template-columns:auto 1fr auto}.summary-top .left img{height:32px}.summary-top h2{font-size:16px;text-align:center}.settings-window,.summary-window{max-height:94dvh;overflow:auto}}
 </style>
 </head>
 <body>
 <main class="app" id="app">
   <div class="blob tl"></div><div class="dots"><i></i><i></i><i></i><i></i></div><div class="swirl"></div><div class="squiggle"></div>
+
+  <div class="top-actions">
+    <button class="tool-btn" id="fullscreenBtn" aria-label="Full screen"><span class="ico">⛶</span><small>FULL</small></button>
+    <button class="tool-btn" id="settingsBtn" aria-label="Settings"><span class="ico">⚙</span></button>
+  </div>
+
   <section class="content">
     <div class="brand"><img src="assets/kosen-logo.png" alt="KOSEN KMITL"></div>
-    <h1>VOTE FOR YOUR FAVORITE</h1><div class="subtitle">support our students!</div>
+    <h1>VOTE FOR YOUR FAVORITE</h1>
+    <div class="subtitle">support our students!</div>
+
     <div class="cards">
-      <div class="card"><button class="vote-circle" data-team="mechatronics" aria-label="Vote Mechatronics"><span id="score-mechatronics">0</span></button><div class="label">Mechatronics<br>Engineering</div></div>
-      <div class="card"><button class="vote-circle" data-team="computer" aria-label="Vote Computer"><span id="score-computer">0</span></button><div class="label">Computer<br>Engineering</div></div>
-      <div class="card"><button class="vote-circle" data-team="electrical" aria-label="Vote Electrical"><span id="score-electrical">0</span></button><div class="label">Electrical and<br>Electronics<br>Engineering</div></div>
+      <div class="card"><button class="vote-circle" data-team="mechatronics"><span id="score-mechatronics">0</span></button><div class="label">Mechatronics<br>Engineering</div></div>
+      <div class="card"><button class="vote-circle" data-team="computer"><span id="score-computer">0</span></button><div class="label">Computer<br>Engineering</div></div>
+      <div class="card"><button class="vote-circle" data-team="electrical"><span id="score-electrical">0</span></button><div class="label">Electrical and<br>Electronics<br>Engineering</div></div>
     </div>
-    <div class="bottom"><select id="activitySelect" class="activity-select" aria-label="Select activity"></select><button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">⚙</button></div>
+
+    <div class="bottom"><select id="activitySelect" class="activity-select" aria-label="Select activity"></select></div>
   </section>
-  <div id="toast" class="toast">Vote recorded</div>
+  <div class="toast" id="toast">Vote recorded</div>
 
-  <div id="pinModal" class="modal" role="dialog" aria-modal="true">
-    <div class="panel pin-panel"><h2>Admin PIN</h2><p>Enter the PIN to open Settings.</p><input id="pinInput" class="pin-input" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••"/><div id="pinError" class="pin-error"></div><div class="pin-actions"><button id="pinCancelBtn" class="btn soft">Cancel</button><button id="pinSubmitBtn" class="btn primary">Unlock</button></div></div>
-  </div>
-
-  <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-    <div class="panel">
-      <h2 id="settingsTitle">Activity Settings</h2><p>Add, rename, delete activities, review results, export a backup, or reset vote counts.</p>
-      <div class="row"><input id="newActivity" maxlength="60" placeholder="New activity name"/><button id="addActivityBtn" class="btn primary">+ Add</button></div>
-      <div id="activityList" class="activity-list"></div><div class="divider"></div>
-      <div class="settings-actions">
-        <div class="left-actions"><button id="summaryBtn" class="btn success">📊 View summary</button><button id="exportBtn" class="btn success">⬇ Export CSV</button><button id="fullscreenBtn" class="btn soft">⛶ Full screen</button><button id="changePinBtn" class="btn soft">🔒 Change PIN</button><button id="resetCurrentBtn" class="btn danger">Reset current votes</button></div>
-        <div class="right-actions"><button id="closeSettingsBtn" class="btn primary">Done</button></div>
+  <!-- PIN -->
+  <div class="modal" id="pinModal" role="dialog" aria-modal="true">
+    <div class="window pin-window">
+      <img class="pin-logo" src="assets/kosen-logo.png" alt="KOSEN KMITL">
+      <button class="close-x" id="pinClose" style="position:absolute;right:28px;top:24px">×</button>
+      <h2>Enter PIN</h2><p>Please enter PIN to access Settings</p>
+      <div class="pin-dots" id="pinDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
+      <div class="keypad">
+        <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button><button class="key" data-k="back">⌫</button>
+        <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button><button class="key" data-k="0">0</button>
+        <button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button><button class="key enter" data-k="enter">Enter</button>
       </div>
-      <div class="hint">Default PIN is <b>1234</b>. Change it before the event. Data is saved in this browser using localStorage.</div>
+      <div class="pin-error" id="pinError"></div>
     </div>
   </div>
 
-  <div id="summaryModal" class="modal" role="dialog" aria-modal="true">
-    <div class="panel summary-panel">
-      <div class="summary-head"><div><h2>Vote Summary</h2><p>All activities stored on this device.</p></div><div class="row"><button id="summaryExportBtn" class="btn success">⬇ Export CSV</button><button id="closeSummaryBtn" class="btn primary">Done</button></div></div>
-      <div class="summary-table-wrap"><table class="summary-table"><thead><tr><th>Activity</th><th>Mechatronics</th><th>Computer</th><th>Electrical & Electronics</th><th>Total</th></tr></thead><tbody id="summaryBody"></tbody></table></div>
-      <div id="grandTotal" class="grand-total"></div>
+  <!-- Settings -->
+  <div class="modal" id="settingsModal" role="dialog" aria-modal="true">
+    <div class="window settings-window">
+      <div class="window-titlebar"><img class="modal-logo" src="assets/kosen-logo.png" alt="KOSEN KMITL"><h2>Settings</h2><button class="close-x" id="closeSettings">×</button></div>
+      <div class="settings-layout">
+        <aside class="side-nav">
+          <button class="nav-btn active" data-tab="activities">▣ &nbsp; Activities</button>
+          <button class="nav-btn" data-tab="summary">▥ &nbsp; Summary</button>
+          <button class="nav-btn" data-tab="pin">♧ &nbsp; Change PIN</button>
+          <button class="nav-btn" data-tab="export">⇩ &nbsp; Export CSV</button>
+          <button class="nav-btn danger" data-tab="reset">↻ &nbsp; Reset Current</button>
+          <button class="nav-btn" data-tab="about">● &nbsp; About</button>
+        </aside>
+        <section class="settings-main">
+          <div class="tab-pane active" id="tab-activities">
+            <div class="settings-head"><h3>Manage Activities</h3><button class="add-btn" id="showAddActivity">＋ Add Activity</button></div>
+            <div class="form-row" id="addActivityRow" style="display:none"><input id="newActivity" maxlength="60" placeholder="Activity name"><button class="primary-btn" id="addActivityBtn">Add</button></div>
+            <div class="activity-list" id="activityList"></div>
+            <p class="help">Each activity stores its own vote totals. Select an activity from the main screen before voting.</p>
+          </div>
+          <div class="tab-pane" id="tab-summary">
+            <div class="settings-head"><h3>Vote Summary (All Activities)</h3><button class="green-btn" id="summaryExportBtn">⇩ Export CSV</button></div>
+            <div class="table-wrap"><table class="summary-table"><thead><tr><th>#</th><th class="activity">Activity</th><th class="m">Mechatronics<br>Engineering</th><th class="c">Computer<br>Engineering</th><th class="e">Electrical and Electronics<br>Engineering</th><th>Total</th></tr></thead><tbody id="summaryBody"></tbody></table></div>
+            <div class="last-updated" id="lastUpdated"></div>
+          </div>
+          <div class="tab-pane" id="tab-pin">
+            <h3>Change PIN</h3><p class="help">The current default PIN for this version is <b>3267</b>.</p>
+            <div class="form-row"><input id="newPin" inputmode="numeric" maxlength="8" placeholder="New PIN (4–8 digits)"><button class="primary-btn" id="savePinBtn">Save PIN</button></div>
+          </div>
+          <div class="tab-pane" id="tab-export">
+            <h3>Export vote backup</h3><p class="help">Exports every activity and all three department scores as a CSV file that can be opened in Excel or Google Sheets.</p>
+            <button class="green-btn" id="exportSettingsBtn">⇩ Export CSV</button>
+          </div>
+          <div class="tab-pane" id="tab-reset">
+            <h3>Reset Current Activity</h3><div class="danger-zone"><p id="resetCurrentName" style="margin-top:0"></p><p class="help">This resets only the currently selected activity. Other activities are unchanged.</p><button class="red-btn" id="resetCurrentBtn">Reset current votes</button></div>
+          </div>
+          <div class="tab-pane" id="tab-about"><h3>KOSEN KMITL Vote</h3><p class="help">Touch-screen voting kiosk. Data is saved locally in this browser using localStorage. Export CSV regularly as a backup.</p></div>
+          <div class="settings-footer"><button class="primary-btn" id="doneSettings">Done</button></div>
+        </section>
+      </div>
     </div>
+  </div>
+
+  <!-- Export result -->
+  <div class="modal" id="exportModal" role="dialog" aria-modal="true">
+    <div class="window export-window"><div class="check">✓</div><h2>Export Successful!</h2><p>Your data has been exported.</p><p class="export-file" id="exportFilename"></p><div class="export-actions"><button class="primary-btn" id="closeExport">Close</button></div><div class="export-tip">Tip: You can open the CSV file with Excel or Google Sheets.</div></div>
   </div>
 </main>
 <script>
-const DEFAULTS=[{id:'art-exhibition',name:'ลาดกระบังนิทรรศน์',votes:{mechatronics:10,computer:43,electrical:24}},{id:'open-house',name:'Open House',votes:{mechatronics:0,computer:0,electrical:0}}];
-const STORAGE_KEY='kosen_tv_vote_v3',OLD_KEY='kosen_tv_vote_v2',PIN_KEY='kosen_tv_vote_pin_v1';
-let state=loadState(),toastTimer;
+const DEFAULTS=[
+ {id:'ladkrabang',name:'ลาดกระบังนิทรรศน์',votes:{mechatronics:10,computer:43,electrical:24}},
+ {id:'openhouse',name:'Open House 2026',votes:{mechatronics:15,computer:28,electrical:17}},
+ {id:'robot',name:'WORKSHOP ROBOT',votes:{mechatronics:8,computer:12,electrical:5}},
+ {id:'science',name:'SCIENCE DAY',votes:{mechatronics:22,computer:31,electrical:19}}
+];
+const STORAGE_KEY='kosen_tv_vote_v4';
+const OLD_KEYS=['kosen_tv_vote_v3','kosen_tv_vote_v2'];
+const PIN_KEY='kosen_tv_vote_pin_v2';
+let state=loadState(), pinBuffer='', toastTimer;
+const $=id=>document.getElementById(id);
 function clone(v){return JSON.parse(JSON.stringify(v))}
-function loadState(){try{const raw=localStorage.getItem(STORAGE_KEY)||localStorage.getItem(OLD_KEY);if(raw){const s=JSON.parse(raw);if(Array.isArray(s.activities)&&s.activities.length)return s}}catch(e){}return{currentId:DEFAULTS[0].id,activities:clone(DEFAULTS)}}
+function loadState(){
+ try{let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const k of OLD_KEYS){raw=localStorage.getItem(k);if(raw)break}}
+   if(raw){const s=JSON.parse(raw);if(Array.isArray(s.activities)&&s.activities.length){return s}}
+ }catch(e){}
+ return{currentId:DEFAULTS[0].id,activities:clone(DEFAULTS)}
+}
 function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-function getPin(){return localStorage.getItem(PIN_KEY)||'1234'}
+function getPin(){return localStorage.getItem(PIN_KEY)||'3267'}
 function current(){return state.activities.find(a=>a.id===state.currentId)||state.activities[0]}
 function slug(){return'activity-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,6)}
-function render(){if(!state.activities.length){state.activities=clone(DEFAULTS);state.currentId=state.activities[0].id;saveState()}if(!state.activities.some(a=>a.id===state.currentId))state.currentId=state.activities[0].id;const a=current();['mechatronics','computer','electrical'].forEach(k=>document.getElementById('score-'+k).textContent=a.votes[k]??0);const select=document.getElementById('activitySelect');select.innerHTML='';state.activities.forEach(x=>{const o=document.createElement('option');o.value=x.id;o.textContent=x.name;o.selected=x.id===state.currentId;select.appendChild(o)});renderSettingsList()}
-function renderSettingsList(){const box=document.getElementById('activityList');box.innerHTML='';state.activities.forEach(a=>{const total=Object.values(a.votes).reduce((s,n)=>s+(+n||0),0);const item=document.createElement('div');item.className='activity-item';item.innerHTML=`<div><div class="name"></div><div class="mini">Total votes: ${total}</div></div><button class="btn soft rename">Rename</button><button class="btn soft use">Select</button><button class="btn danger delete">Delete</button>`;item.querySelector('.name').textContent=a.name;item.querySelector('.rename').onclick=()=>renameActivity(a.id);item.querySelector('.use').onclick=()=>{state.currentId=a.id;saveState();render();showToast('Activity selected')};item.querySelector('.delete').onclick=()=>deleteActivity(a.id);box.appendChild(item)})}
-function renderSummary(){const body=document.getElementById('summaryBody');body.innerHTML='';let m=0,c=0,e=0;state.activities.forEach(a=>{const mv=+a.votes.mechatronics||0,cv=+a.votes.computer||0,ev=+a.votes.electrical||0,total=mv+cv+ev;m+=mv;c+=cv;e+=ev;const tr=document.createElement('tr');[a.name,mv,cv,ev,total].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});body.appendChild(tr)});document.getElementById('grandTotal').innerHTML=`<span>Grand total: ${m+c+e} votes</span><span>Mechatronics ${m} · Computer ${c} · Electrical ${e}</span>`}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1100)}
-function closeModal(id){document.getElementById(id).classList.remove('show')}
-function openSettings(){closeModal('pinModal');document.getElementById('settingsModal').classList.add('show')}
-function requestPin(){const input=document.getElementById('pinInput');document.getElementById('pinError').textContent='';input.value='';document.getElementById('pinModal').classList.add('show');setTimeout(()=>input.focus(),60)}
-function verifyPin(){const input=document.getElementById('pinInput');if(input.value===getPin()){openSettings()}else{document.getElementById('pinError').textContent='Incorrect PIN';input.value='';input.focus()}}
-for(const btn of document.querySelectorAll('.vote-circle'))btn.addEventListener('click',()=>{const a=current(),team=btn.dataset.team;a.votes[team]=(a.votes[team]||0)+1;saveState();render();showToast('Vote recorded ✓');btn.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:210})});
-document.getElementById('activitySelect').addEventListener('change',e=>{state.currentId=e.target.value;saveState();render();showToast('Activity changed')});
-document.getElementById('settingsBtn').onclick=requestPin;document.getElementById('pinSubmitBtn').onclick=verifyPin;document.getElementById('pinCancelBtn').onclick=()=>closeModal('pinModal');document.getElementById('pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')verifyPin()});
-document.getElementById('closeSettingsBtn').onclick=()=>closeModal('settingsModal');document.getElementById('closeSummaryBtn').onclick=()=>closeModal('summaryModal');
-document.getElementById('addActivityBtn').onclick=()=>{const input=document.getElementById('newActivity'),name=input.value.trim();if(!name)return;const a={id:slug(),name,votes:{mechatronics:0,computer:0,electrical:0}};state.activities.push(a);state.currentId=a.id;input.value='';saveState();render();showToast('Activity added')};
-document.getElementById('newActivity').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('addActivityBtn').click()});
-function renameActivity(id){const a=state.activities.find(x=>x.id===id);if(!a)return;const n=prompt('Activity name',a.name);if(n&&n.trim()){a.name=n.trim();saveState();render()}}
-function deleteActivity(id){if(state.activities.length<=1){alert('At least one activity is required.');return}const a=state.activities.find(x=>x.id===id);if(!confirm(`Delete “${a.name}”? This will also delete its vote totals.`))return;state.activities=state.activities.filter(x=>x.id!==id);if(state.currentId===id)state.currentId=state.activities[0].id;saveState();render();showToast('Activity deleted')}
-document.getElementById('resetCurrentBtn').onclick=()=>{const a=current();if(confirm(`Reset all votes for “${a.name}” to 0?`)){a.votes={mechatronics:0,computer:0,electrical:0};saveState();render();showToast('Votes reset')}};
-document.getElementById('fullscreenBtn').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){alert('Full screen is not available in this browser.')}};
-document.getElementById('summaryBtn').onclick=()=>{renderSummary();document.getElementById('summaryModal').classList.add('show')};
-document.getElementById('changePinBtn').onclick=()=>{const old=prompt('Enter current PIN');if(old===null)return;if(old!==getPin()){alert('Current PIN is incorrect.');return}const p1=prompt('Enter new PIN (4–8 digits)');if(p1===null)return;if(!/^\d{4,8}$/.test(p1)){alert('PIN must be 4–8 digits.');return}const p2=prompt('Enter the new PIN again');if(p1!==p2){alert('PINs do not match.');return}localStorage.setItem(PIN_KEY,p1);showToast('PIN changed ✓')};
+function openModal(id){$(id).classList.add('show')}
+function closeModal(id){$(id).classList.remove('show')}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),950)}
+
+function render(){
+ if(!state.activities.length){state.activities=clone(DEFAULTS);state.currentId=state.activities[0].id}
+ if(!state.activities.some(a=>a.id===state.currentId))state.currentId=state.activities[0].id;
+ const a=current();['mechatronics','computer','electrical'].forEach(k=>$('score-'+k).textContent=a.votes[k]||0);
+ const sel=$('activitySelect');sel.innerHTML='';state.activities.forEach(x=>{const o=document.createElement('option');o.value=x.id;o.textContent=x.name;o.selected=x.id===state.currentId;sel.appendChild(o)});
+ $('resetCurrentName').textContent=`Current activity: ${a.name}`;renderActivityList();saveState();
+}
+function renderActivityList(){
+ const box=$('activityList');box.innerHTML='';
+ state.activities.forEach(a=>{
+  const total=(+a.votes.mechatronics||0)+(+a.votes.computer||0)+(+a.votes.electrical||0);
+  const item=document.createElement('div');item.className='activity-item';
+  item.innerHTML='<div><div class="activity-title"></div><div class="activity-meta"></div></div><button class="mini-btn edit">✎</button><button class="mini-btn delete">🗑</button>';
+  item.querySelector('.activity-title').textContent=a.name;item.querySelector('.activity-meta').textContent=`Total votes: ${total}${a.id===state.currentId?' · Selected':''}`;
+  item.querySelector('.edit').onclick=()=>renameActivity(a.id);item.querySelector('.delete').onclick=()=>deleteActivity(a.id);
+  item.onclick=e=>{if(e.target.closest('button'))return;state.currentId=a.id;render();showToast('Activity selected')};box.appendChild(item)
+ })
+}
+function renderSummary(){
+ const body=$('summaryBody');body.innerHTML='';let gm=0,gc=0,ge=0;
+ state.activities.forEach((a,i)=>{const m=+a.votes.mechatronics||0,c=+a.votes.computer||0,e=+a.votes.electrical||0,total=m+c+e;gm+=m;gc+=c;ge+=e;const tr=document.createElement('tr');tr.innerHTML=`<td>${i+1}</td><td class="activity"></td><td class="m">${m}</td><td class="c">${c}</td><td class="e">${e}</td><td>${total}</td>`;tr.querySelector('.activity').textContent=a.name;body.appendChild(tr)});
+ const tr=document.createElement('tr');tr.className='grand';tr.innerHTML=`<td colspan="2" class="activity">Grand Total</td><td class="m">${gm}</td><td class="c">${gc}</td><td class="e">${ge}</td><td>${gm+gc+ge}</td>`;body.appendChild(tr);
+ const d=new Date();$('lastUpdated').textContent='Last updated: '+d.toLocaleString('th-TH');
+}
+
+/* voting */
+document.querySelectorAll('.vote-circle').forEach(btn=>btn.onclick=()=>{const a=current(),team=btn.dataset.team;a.votes[team]=(a.votes[team]||0)+1;saveState();render();showToast('Vote recorded ✓');btn.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:190})});
+$('activitySelect').onchange=e=>{state.currentId=e.target.value;render();showToast('Activity changed')};
+
+/* top actions */
+$('fullscreenBtn').onclick=async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){showToast('Full screen unavailable')}};
+$('settingsBtn').onclick=()=>{pinBuffer='';updatePinDots();$('pinError').textContent='';openModal('pinModal')};
+
+/* PIN keypad */
+function updatePinDots(){document.querySelectorAll('.pin-dot').forEach((d,i)=>{d.textContent=i<pinBuffer.length?'•':'';d.classList.toggle('filled',i<pinBuffer.length)})}
+function verifyPin(){if(pinBuffer===getPin()){closeModal('pinModal');openModal('settingsModal');pinBuffer=''}else{$('pinError').textContent='Incorrect PIN';pinBuffer='';updatePinDots()}}
+document.querySelectorAll('.key').forEach(k=>k.onclick=()=>{const v=k.dataset.k;if(v==='back')pinBuffer=pinBuffer.slice(0,-1);else if(v==='enter')return verifyPin();else if(pinBuffer.length<8)pinBuffer+=v;updatePinDots();if(pinBuffer.length===4&&getPin().length===4)setTimeout(verifyPin,130)});
+$('pinClose').onclick=()=>closeModal('pinModal');
+document.addEventListener('keydown',e=>{if(!$('pinModal').classList.contains('show'))return;if(/^\d$/.test(e.key)&&pinBuffer.length<8){pinBuffer+=e.key;updatePinDots()}else if(e.key==='Backspace'){pinBuffer=pinBuffer.slice(0,-1);updatePinDots()}else if(e.key==='Enter')verifyPin()});
+
+/* settings tabs */
+document.querySelectorAll('.nav-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));$('tab-'+btn.dataset.tab).classList.add('active');if(btn.dataset.tab==='summary')renderSummary()});
+$('closeSettings').onclick=$('doneSettings').onclick=()=>closeModal('settingsModal');
+$('showAddActivity').onclick=()=>{$('addActivityRow').style.display=$('addActivityRow').style.display==='none'?'flex':'none';if($('addActivityRow').style.display==='flex')$('newActivity').focus()};
+$('addActivityBtn').onclick=()=>{const name=$('newActivity').value.trim();if(!name)return;const a={id:slug(),name,votes:{mechatronics:0,computer:0,electrical:0}};state.activities.push(a);state.currentId=a.id;$('newActivity').value='';render();showToast('Activity added')};
+$('newActivity').onkeydown=e=>{if(e.key==='Enter')$('addActivityBtn').click()};
+function renameActivity(id){const a=state.activities.find(x=>x.id===id);const n=prompt('Activity name',a.name);if(n&&n.trim()){a.name=n.trim();render()}}
+function deleteActivity(id){if(state.activities.length<=1)return alert('At least one activity is required.');const a=state.activities.find(x=>x.id===id);if(!confirm(`Delete “${a.name}”? This also deletes its vote totals.`))return;state.activities=state.activities.filter(x=>x.id!==id);if(state.currentId===id)state.currentId=state.activities[0].id;render();showToast('Activity deleted')}
+$('savePinBtn').onclick=()=>{const p=$('newPin').value.trim();if(!/^\d{4,8}$/.test(p))return alert('PIN must be 4–8 digits.');localStorage.setItem(PIN_KEY,p);$('newPin').value='';showToast('PIN changed ✓')};
+$('resetCurrentBtn').onclick=()=>{const a=current();if(confirm(`Reset all votes for “${a.name}” to 0?`)){a.votes={mechatronics:0,computer:0,electrical:0};render();showToast('Votes reset')}};
+
+/* CSV */
 function csvCell(v){return '"'+String(v).replace(/"/g,'""')+'"'}
-function exportCSV(){const rows=[['Activity','Mechatronics Engineering','Computer Engineering','Electrical and Electronics Engineering','Total']];let gm=0,gc=0,ge=0;state.activities.forEach(a=>{const m=+a.votes.mechatronics||0,c=+a.votes.computer||0,e=+a.votes.electrical||0;gm+=m;gc+=c;ge+=e;rows.push([a.name,m,c,e,m+c+e])});rows.push(['GRAND TOTAL',gm,gc,ge,gm+gc+ge]);const csv='\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a'),d=new Date(),stamp=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}_${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;a.href=url;a.download=`kosen-vote-backup_${stamp}.csv`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('CSV exported ✓')}
-document.getElementById('exportBtn').onclick=exportCSV;document.getElementById('summaryExportBtn').onclick=exportCSV;
-for(const id of ['pinModal','settingsModal','summaryModal'])document.getElementById(id).addEventListener('click',e=>{if(e.target.id===id)closeModal(id)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal('pinModal');closeModal('settingsModal');closeModal('summaryModal')}});
+function exportCSV(){
+ const rows=[['Activity','Mechatronics Engineering','Computer Engineering','Electrical and Electronics Engineering','Total']];let gm=0,gc=0,ge=0;
+ state.activities.forEach(a=>{const m=+a.votes.mechatronics||0,c=+a.votes.computer||0,e=+a.votes.electrical||0;gm+=m;gc+=c;ge+=e;rows.push([a.name,m,c,e,m+c+e])});rows.push(['GRAND TOTAL',gm,gc,ge,gm+gc+ge]);
+ const csv='\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob),a=document.createElement('a'),d=new Date(),stamp=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}_${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;const filename=`kosen-vote-backup_${stamp}.csv`;a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$('exportFilename').textContent=filename;openModal('exportModal')
+}
+$('exportSettingsBtn').onclick=exportCSV;$('summaryExportBtn').onclick=exportCSV;
+$('closeExport').onclick=()=>closeModal('exportModal');
+
+['pinModal','settingsModal','exportModal'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target.id===id)closeModal(id)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){['pinModal','settingsModal','exportModal'].forEach(closeModal)}});
 render();
 </script>
 </body>
