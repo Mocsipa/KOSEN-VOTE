@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#10044f" />
 <title>KOSEN KMITL Vote</title>
 <style>
-:root{--vote-size:290px;--vote-y:4px;--vote-gap:62px;
+:root{--vote-size:290px;--vote-y:4px;--vote-gap:62px;--logo-size:88px;--logo-x:0px;--logo-y:0px;--text-x:0px;--text-y:0px;--title-size:73px;--subtitle-size:44px;
   --bg:#120652;--bg2:#090f2f;--panel:#09142f;--panel2:#0d1838;--line:#2d3858;
   --blue:#1e8df4;--blue2:#58a6ff;--orange:#f15a24;--white:#fff;--muted:#aeb7cf;
   --mecha:#c85ce7;--computer:#ff575d;--electrical:#7adb4c;--green:#15b64f;--danger:#ef3e45;
@@ -29,9 +29,9 @@ button{touch-action:manipulation}
 
 /* main */
 .content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;padding:25px 42px 24px}
-.brand{height:88px;margin-top:4px;display:flex;align-items:center;justify-content:center}.brand img{height:100%;width:auto;max-width:330px;object-fit:contain}
-h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight:950;letter-spacing:.5px;text-align:center}
-.subtitle{font-size:clamp(25px,2.8vw,44px);font-weight:400;letter-spacing:1px;margin-bottom:24px}
+.brand{height:var(--logo-size,88px);margin-top:4px;display:flex;align-items:center;justify-content:center;transform:translate(var(--logo-x,0px),var(--logo-y,0px));transition:transform .12s,height .12s}.brand img{height:100%;width:auto;max-width:none;object-fit:contain}
+h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:950;letter-spacing:.5px;text-align:center;transform:translate(var(--text-x,0px),var(--text-y,0px));transition:transform .12s,font-size .12s}
+.subtitle{font-size:var(--subtitle-size,44px);font-weight:400;letter-spacing:1px;margin-bottom:24px;transform:translate(var(--text-x,0px),var(--text-y,0px));transition:transform .12s,font-size .12s}
 .top-actions{position:absolute;right:34px;bottom:28px;top:auto;z-index:5;display:flex;gap:16px;align-items:flex-end}
 .tool-btn{width:70px;height:70px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:#2f91f5;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.16)}
 #fullscreenBtn{display:flex;width:78px;height:78px;border:6px solid #fff;background:#0c1938;color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.22);border-radius:50%;align-items:center;justify-content:center;flex-direction:column}
@@ -80,6 +80,7 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
 .layout-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .layout-grid .display-control{margin-top:0}
 @media(max-width:760px){.layout-grid{grid-template-columns:1fr}}
+.design-section{border:1px solid #2d3957;background:#101b36;border-radius:9px;padding:14px;margin:12px 0}.design-section h4{margin:0 0 10px;font-size:14px}.control-row{margin:11px 0}.control-row label{display:flex;justify-content:space-between;gap:12px;margin-bottom:6px;font-size:12px;color:#c6cee0}.control-row strong{color:#fff}.control-row input[type=range]{width:100%}.design-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.reset-design{margin-top:8px}.preview-note{font-size:11px;color:#8795b3;margin-top:8px}@media(max-width:760px){.design-grid{grid-template-columns:1fr}}
 .display-control{background:#111d38;border:1px solid #2d3b5d;border-radius:10px;padding:18px;margin-top:12px}
 .display-control label{display:flex;justify-content:space-between;align-items:center;gap:16px;font-weight:800;margin-bottom:14px}
 .display-control input[type="range"]{width:100%;accent-color:#2f91f5;cursor:pointer}
@@ -188,6 +189,28 @@ h1{font-size:clamp(42px,4.55vw,73px);line-height:1;margin:10px 0 8px;font-weight
               </div>
             </div>
           </div>
+          <div class="tab-pane" id="tab-design">
+            <div class="settings-head"><h3>Logo & Text Layout</h3><button class="ghost-btn" id="resetDesignBtn">Reset</button></div>
+            <p class="help">Adjust the main-screen logo and heading positions/sizes. Changes are applied immediately and saved on this browser.</p>
+            <div class="design-section">
+              <h4>KOSEN KMITL Logo</h4>
+              <div class="control-row"><label><span>Logo size</span><strong id="logoSizeValue">88 px</strong></label><input id="logoSizeSlider" type="range" min="40" max="180" step="2" value="88"></div>
+              <div class="design-grid">
+                <div class="control-row"><label><span>Horizontal position (X)</span><strong id="logoXValue">0 px</strong></label><input id="logoXSlider" type="range" min="-500" max="500" step="5" value="0"></div>
+                <div class="control-row"><label><span>Vertical position (Y)</span><strong id="logoYValue">0 px</strong></label><input id="logoYSlider" type="range" min="-250" max="350" step="5" value="0"></div>
+              </div>
+            </div>
+            <div class="design-section">
+              <h4>Main Text</h4>
+              <div class="design-grid">
+                <div class="control-row"><label><span>Title size</span><strong id="titleSizeValue">73 px</strong></label><input id="titleSizeSlider" type="range" min="28" max="120" step="1" value="73"></div>
+                <div class="control-row"><label><span>Subtitle size</span><strong id="subtitleSizeValue">44 px</strong></label><input id="subtitleSizeSlider" type="range" min="18" max="72" step="1" value="44"></div>
+                <div class="control-row"><label><span>Horizontal position (X)</span><strong id="textXValue">0 px</strong></label><input id="textXSlider" type="range" min="-500" max="500" step="5" value="0"></div>
+                <div class="control-row"><label><span>Vertical position (Y)</span><strong id="textYValue">0 px</strong></label><input id="textYSlider" type="range" min="-250" max="350" step="5" value="0"></div>
+              </div>
+              <p class="preview-note">X moves left/right. Y moves up/down. The title and subtitle move together, while their font sizes can be adjusted separately.</p>
+            </div>
+          </div>
           <div class="tab-pane" id="tab-summary">
             <div class="settings-head"><h3>Vote Summary (All Activities)</h3><button class="green-btn" id="summaryExportBtn">⇩ Export CSV</button></div>
             <div class="table-wrap"><table class="summary-table"><thead><tr><th>#</th><th class="activity">Activity</th><th class="m">Mechatronics<br>Engineering</th><th class="c">Computer<br>Engineering</th><th class="e">Electrical and Electronics<br>Engineering</th><th>Total</th></tr></thead><tbody id="summaryBody"></tbody></table></div>
@@ -232,6 +255,13 @@ function clone(v){return JSON.parse(JSON.stringify(v))}
 const VOTE_SIZE_KEY='kosen_vote_button_size_v1';
 const VOTE_Y_KEY='kosen_vote_vertical_position_v1';
 const VOTE_GAP_KEY='kosen_vote_button_gap_v1';
+const LOGO_SIZE_KEY='kosen_logo_size_v1';
+const LOGO_X_KEY='kosen_logo_x_v1';
+const LOGO_Y_KEY='kosen_logo_y_v1';
+const TEXT_X_KEY='kosen_text_x_v1';
+const TEXT_Y_KEY='kosen_text_y_v1';
+const TITLE_SIZE_KEY='kosen_title_size_v1';
+const SUBTITLE_SIZE_KEY='kosen_subtitle_size_v1';
 function clamp(n,min,max,fallback){n=parseInt(n,10);return Math.max(min,Math.min(max,Number.isFinite(n)?n:fallback))}
 function getVoteSize(){return clamp(localStorage.getItem(VOTE_SIZE_KEY)||'290',160,420,290)}
 function getVoteY(){return clamp(localStorage.getItem(VOTE_Y_KEY)||'4',-80,280,4)}
@@ -239,6 +269,18 @@ function getVoteGap(){return clamp(localStorage.getItem(VOTE_GAP_KEY)||'62',0,22
 function applyVoteSize(size,save=true){size=clamp(size,160,420,290);document.documentElement.style.setProperty('--vote-size',size+'px');const slider=$('voteSizeSlider'),value=$('voteSizeValue'),preview=$('sizePreview');if(slider)slider.value=size;if(value)value.textContent=size+' px';if(preview)preview.style.setProperty('--preview-size',Math.min(100,Math.max(55,size*.28))+'px');document.querySelectorAll('.size-preset').forEach(b=>b.classList.toggle('active',+b.dataset.size===size));if(save)localStorage.setItem(VOTE_SIZE_KEY,String(size))}
 function applyVoteY(y,save=true){y=clamp(y,-80,280,4);document.documentElement.style.setProperty('--vote-y',y+'px');if($('voteYSlider'))$('voteYSlider').value=y;if($('voteYValue'))$('voteYValue').textContent=y+' px';document.querySelectorAll('.position-preset').forEach(b=>b.classList.toggle('active',+b.dataset.y===y));if(save)localStorage.setItem(VOTE_Y_KEY,String(y))}
 function applyVoteGap(gap,save=true){gap=clamp(gap,0,220,62);document.documentElement.style.setProperty('--vote-gap',gap+'px');if($('voteGapSlider'))$('voteGapSlider').value=gap;if($('voteGapValue'))$('voteGapValue').textContent=gap+' px';document.querySelectorAll('.gap-preset').forEach(b=>b.classList.toggle('active',+b.dataset.gap===gap));if(save)localStorage.setItem(VOTE_GAP_KEY,String(gap))}
+function storedNum(key,fallback,min,max){return clamp(localStorage.getItem(key)??String(fallback),min,max,fallback)}
+function applyDesignValue(cssVar,key,value,min,max,fallback,sliderId,valueId,save=true){value=clamp(value,min,max,fallback);document.documentElement.style.setProperty(cssVar,value+'px');if($(sliderId))$(sliderId).value=value;if($(valueId))$(valueId).textContent=value+' px';if(save)localStorage.setItem(key,String(value));return value}
+function applyLogoSize(v,save=true){return applyDesignValue('--logo-size',LOGO_SIZE_KEY,v,40,180,88,'logoSizeSlider','logoSizeValue',save)}
+function applyLogoX(v,save=true){return applyDesignValue('--logo-x',LOGO_X_KEY,v,-500,500,0,'logoXSlider','logoXValue',save)}
+function applyLogoY(v,save=true){return applyDesignValue('--logo-y',LOGO_Y_KEY,v,-250,350,0,'logoYSlider','logoYValue',save)}
+function applyTextX(v,save=true){return applyDesignValue('--text-x',TEXT_X_KEY,v,-500,500,0,'textXSlider','textXValue',save)}
+function applyTextY(v,save=true){return applyDesignValue('--text-y',TEXT_Y_KEY,v,-250,350,0,'textYSlider','textYValue',save)}
+function applyTitleSize(v,save=true){return applyDesignValue('--title-size',TITLE_SIZE_KEY,v,28,120,73,'titleSizeSlider','titleSizeValue',save)}
+function applySubtitleSize(v,save=true){return applyDesignValue('--subtitle-size',SUBTITLE_SIZE_KEY,v,18,72,44,'subtitleSizeSlider','subtitleSizeValue',save)}
+function loadDesignSettings(){applyLogoSize(storedNum(LOGO_SIZE_KEY,88,40,180),false);applyLogoX(storedNum(LOGO_X_KEY,0,-500,500),false);applyLogoY(storedNum(LOGO_Y_KEY,0,-250,350),false);applyTextX(storedNum(TEXT_X_KEY,0,-500,500),false);applyTextY(storedNum(TEXT_Y_KEY,0,-250,350),false);applyTitleSize(storedNum(TITLE_SIZE_KEY,73,28,120),false);applySubtitleSize(storedNum(SUBTITLE_SIZE_KEY,44,18,72),false)}
+function resetDesignSettings(){applyLogoSize(88);applyLogoX(0);applyLogoY(0);applyTextX(0);applyTextY(0);applyTitleSize(73);applySubtitleSize(44);showToast('Logo & text layout reset')}
+
 
 function loadState(){
  try{let raw=localStorage.getItem(STORAGE_KEY);if(!raw){for(const k of OLD_KEYS){raw=localStorage.getItem(k);if(raw)break}}
@@ -304,6 +346,18 @@ $('voteGapSlider').oninput=e=>applyVoteGap(e.target.value);
 document.querySelectorAll('.size-preset').forEach(b=>b.onclick=()=>applyVoteSize(b.dataset.size));
 document.querySelectorAll('.position-preset').forEach(b=>b.onclick=()=>applyVoteY(b.dataset.y));
 document.querySelectorAll('.gap-preset').forEach(b=>b.onclick=()=>applyVoteGap(b.dataset.gap));
+
+/* logo & text design settings */
+loadDesignSettings();
+$('logoSizeSlider').oninput=e=>applyLogoSize(e.target.value);
+$('logoXSlider').oninput=e=>applyLogoX(e.target.value);
+$('logoYSlider').oninput=e=>applyLogoY(e.target.value);
+$('textXSlider').oninput=e=>applyTextX(e.target.value);
+$('textYSlider').oninput=e=>applyTextY(e.target.value);
+$('titleSizeSlider').oninput=e=>applyTitleSize(e.target.value);
+$('subtitleSizeSlider').oninput=e=>applySubtitleSize(e.target.value);
+$('resetDesignBtn').onclick=resetDesignSettings;
+
 
 /* settings tabs */
 document.querySelectorAll('.nav-btn').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.tab-pane').forEach(x=>x.classList.remove('active'));$('tab-'+btn.dataset.tab).classList.add('active');if(btn.dataset.tab==='summary')renderSummary()});
