@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#10044f" />
 <title>KOSEN KMITL Vote</title>
 <style>
-:root{--vote-size:290px;--vote-y:4px;--vote-gap:62px;--logo-size:88px;--logo-x:0px;--logo-y:0px;--text-x:0px;--text-y:0px;--title-size:73px;--subtitle-size:44px;
+:root{--vote-size:290px;--vote-y:4px;--vote-gap:62px;--logo-size:88px;--logo-x:0px;--logo-y:0px;--text-x:0px;--text-y:0px;--title-size:73px;--subtitle-size:44px;--header-x:0px;--header-y:0px;--header-scale:1;
   --bg:#120652;--bg2:#090f2f;--panel:#09142f;--panel2:#0d1838;--line:#2d3858;
   --blue:#1e8df4;--blue2:#58a6ff;--orange:#f15a24;--white:#fff;--muted:#aeb7cf;
   --mecha:#c85ce7;--computer:#ff575d;--electrical:#7adb4c;--green:#15b64f;--danger:#ef3e45;
@@ -29,7 +29,7 @@ button{touch-action:manipulation}
 
 /* main */
 .content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;padding:25px 42px 24px}
-.brand{height:var(--logo-size,88px);margin-top:4px;display:flex;align-items:center;justify-content:center;transform:translate(var(--logo-x,0px),var(--logo-y,0px));transition:transform .12s,height .12s}.brand img{height:100%;width:auto;max-width:none;object-fit:contain}
+.hero-group{display:flex;flex-direction:column;align-items:center;transform:translate(var(--header-x,0px),var(--header-y,0px)) scale(var(--header-scale,1));transform-origin:top center;transition:transform .12s;will-change:transform}.brand{height:var(--logo-size,88px);margin-top:4px;display:flex;align-items:center;justify-content:center;transform:translate(var(--logo-x,0px),var(--logo-y,0px));transition:transform .12s,height .12s}.brand img{height:100%;width:auto;max-width:none;object-fit:contain}
 h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:950;letter-spacing:.5px;text-align:center;transform:translate(var(--text-x,0px),var(--text-y,0px));transition:transform .12s,font-size .12s}
 .subtitle{font-size:var(--subtitle-size,44px);font-weight:400;letter-spacing:1px;margin-bottom:24px;transform:translate(var(--text-x,0px),var(--text-y,0px));transition:transform .12s,font-size .12s}
 .top-actions{position:absolute;right:34px;bottom:28px;top:auto;z-index:5;display:flex;gap:16px;align-items:flex-end}
@@ -69,7 +69,7 @@ h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:
 .preview-stage{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0;background:radial-gradient(circle at 43% 42%,rgba(51,31,160,.18),transparent 28%),linear-gradient(160deg,#17045e 0%,#10034a 58%,#12014a 100%);color:#fff;pointer-events:none;overflow:hidden}
 .preview-stage .p-blob{position:absolute;width:240px;height:310px;left:-28px;top:-16px;background:#81acf1;border-radius:0 0 58% 0/0 0 40% 0;transform:rotate(-5deg)}
 .preview-stage .p-dots{position:absolute;right:40px;top:34px;width:150px;height:170px}.preview-stage .p-dots i{position:absolute;width:25px;height:52px;border-radius:30px;background:#559dff;transform:rotate(42deg)}.preview-stage .p-dots i:nth-child(1){right:82px;top:-12px}.preview-stage .p-dots i:nth-child(2){right:18px;top:32px}.preview-stage .p-dots i:nth-child(3){right:88px;top:74px}.preview-stage .p-dots i:nth-child(4){right:28px;top:118px}
-.preview-stage .p-brand{position:absolute;top:28px;left:50%;height:var(--logo-size);transform:translate(calc(-50% + var(--logo-x)),var(--logo-y));display:flex;align-items:center;justify-content:center}.preview-stage .p-brand img{height:100%;width:auto}
+.preview-stage .p-header-group{position:absolute;left:50%;top:0;width:1600px;height:290px;transform:translate(calc(-50% + var(--header-x)),var(--header-y)) scale(var(--header-scale));transform-origin:top center}.preview-stage .p-brand{position:absolute;top:28px;left:50%;height:var(--logo-size);transform:translate(calc(-50% + var(--logo-x)),var(--logo-y));display:flex;align-items:center;justify-content:center}.preview-stage .p-brand img{height:100%;width:auto}
 .preview-stage .p-title{position:absolute;top:124px;left:50%;margin:0;font-size:var(--title-size);line-height:1;font-weight:950;white-space:nowrap;transform:translate(calc(-50% + var(--text-x)),var(--text-y))}
 .preview-stage .p-subtitle{position:absolute;top:210px;left:50%;font-size:var(--subtitle-size);line-height:1;white-space:nowrap;transform:translate(calc(-50% + var(--text-x)),var(--text-y))}
 .preview-stage .p-cards{position:absolute;top:300px;left:50%;display:flex;gap:var(--vote-gap);transform:translate(-50%,var(--vote-y));align-items:flex-start}
@@ -118,9 +118,11 @@ h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:
   </div>
 
   <section class="content">
-    <div class="brand"><img src="assets/kosen-logo.png" alt="KOSEN KMITL"></div>
-    <h1>VOTE FOR YOUR FAVORITE</h1>
-    <div class="subtitle">support our students!</div>
+    <div class="hero-group" id="heroGroup">
+      <div class="brand"><img src="assets/kosen-logo.png" alt="KOSEN KMITL"></div>
+      <h1>VOTE FOR YOUR FAVORITE</h1>
+      <div class="subtitle">support our students!</div>
+    </div>
 
     <div class="cards">
       <div class="card"><button class="vote-circle" data-team="mechatronics"><span id="score-mechatronics">0</span></button><div class="label">Mechatronics<br>Engineering</div></div>
@@ -177,9 +179,11 @@ h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:
               <div class="preview-viewport">
                 <div class="preview-stage">
                   <div class="p-blob"></div><div class="p-dots"><i></i><i></i><i></i><i></i></div>
-                  <div class="p-brand"><img src="assets/kosen-logo.png" alt=""></div>
-                  <div class="p-title">VOTE FOR YOUR FAVORITE</div>
-                  <div class="p-subtitle">support our students!</div>
+                  <div class="p-header-group">
+                    <div class="p-brand"><img src="assets/kosen-logo.png" alt=""></div>
+                    <div class="p-title">VOTE FOR YOUR FAVORITE</div>
+                    <div class="p-subtitle">support our students!</div>
+                  </div>
                   <div class="p-cards">
                     <div class="p-card"><div class="p-circle p-score-mechatronics">0</div><div class="p-label">Mechatronics<br>Engineering</div></div>
                     <div class="p-card"><div class="p-circle p-score-computer">0</div><div class="p-label">Computer<br>Engineering</div></div>
@@ -232,9 +236,11 @@ h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:
               <div class="preview-viewport">
                 <div class="preview-stage">
                   <div class="p-blob"></div><div class="p-dots"><i></i><i></i><i></i><i></i></div>
-                  <div class="p-brand"><img src="assets/kosen-logo.png" alt=""></div>
-                  <div class="p-title">VOTE FOR YOUR FAVORITE</div>
-                  <div class="p-subtitle">support our students!</div>
+                  <div class="p-header-group">
+                    <div class="p-brand"><img src="assets/kosen-logo.png" alt=""></div>
+                    <div class="p-title">VOTE FOR YOUR FAVORITE</div>
+                    <div class="p-subtitle">support our students!</div>
+                  </div>
                   <div class="p-cards">
                     <div class="p-card"><div class="p-circle p-score-mechatronics">0</div><div class="p-label">Mechatronics<br>Engineering</div></div>
                     <div class="p-card"><div class="p-circle p-score-computer">0</div><div class="p-label">Computer<br>Engineering</div></div>
@@ -243,6 +249,23 @@ h1{font-size:var(--title-size,73px);line-height:1;margin:10px 0 8px;font-weight:
                   <div class="p-select p-activity-name">Activity</div>
                 </div>
               </div>
+            </div>
+
+            <div class="design-section">
+              <h4>Whole Header Group (Logo + Title + Subtitle)</h4>
+              <p class="help">Move or resize the entire top section together. Individual logo/text controls below still work inside this group.</p>
+              <div class="control-row"><label><span>Overall size</span><strong id="headerScaleValue">100%</strong></label><input id="headerScaleSlider" type="range" min="50" max="160" step="1" value="100"></div>
+              <div class="design-grid">
+                <div class="control-row"><label><span>Horizontal position (X)</span><strong id="headerXValue">0 px</strong></label><input id="headerXSlider" type="range" min="-500" max="500" step="5" value="0"></div>
+                <div class="control-row"><label><span>Vertical position (Y)</span><strong id="headerYValue">0 px</strong></label><input id="headerYSlider" type="range" min="-250" max="450" step="5" value="0"></div>
+              </div>
+              <div class="preset-row">
+                <button class="ghost-btn header-preset" data-scale="80">80%</button>
+                <button class="ghost-btn header-preset" data-scale="100">100%</button>
+                <button class="ghost-btn header-preset" data-scale="120">120%</button>
+                <button class="ghost-btn" id="centerHeaderBtn">Center</button>
+              </div>
+              <p class="preview-note">Use this when you want the logo + both text lines to behave as one object.</p>
             </div>
 
             <div class="design-section">
@@ -315,6 +338,9 @@ const TEXT_X_KEY='kosen_text_x_v1';
 const TEXT_Y_KEY='kosen_text_y_v1';
 const TITLE_SIZE_KEY='kosen_title_size_v1';
 const SUBTITLE_SIZE_KEY='kosen_subtitle_size_v1';
+const HEADER_X_KEY='kosen_header_group_x_v1';
+const HEADER_Y_KEY='kosen_header_group_y_v1';
+const HEADER_SCALE_KEY='kosen_header_group_scale_v1';
 function clamp(n,min,max,fallback){n=parseInt(n,10);return Math.max(min,Math.min(max,Number.isFinite(n)?n:fallback))}
 function getVoteSize(){return clamp(localStorage.getItem(VOTE_SIZE_KEY)||'290',160,420,290)}
 function getVoteY(){return clamp(localStorage.getItem(VOTE_Y_KEY)||'4',-80,280,4)}
@@ -331,8 +357,11 @@ function applyTextX(v,save=true){return applyDesignValue('--text-x',TEXT_X_KEY,v
 function applyTextY(v,save=true){return applyDesignValue('--text-y',TEXT_Y_KEY,v,-250,350,0,'textYSlider','textYValue',save)}
 function applyTitleSize(v,save=true){return applyDesignValue('--title-size',TITLE_SIZE_KEY,v,28,120,73,'titleSizeSlider','titleSizeValue',save)}
 function applySubtitleSize(v,save=true){return applyDesignValue('--subtitle-size',SUBTITLE_SIZE_KEY,v,18,72,44,'subtitleSizeSlider','subtitleSizeValue',save)}
-function loadDesignSettings(){applyLogoSize(storedNum(LOGO_SIZE_KEY,88,40,180),false);applyLogoX(storedNum(LOGO_X_KEY,0,-500,500),false);applyLogoY(storedNum(LOGO_Y_KEY,0,-250,350),false);applyTextX(storedNum(TEXT_X_KEY,0,-500,500),false);applyTextY(storedNum(TEXT_Y_KEY,0,-250,350),false);applyTitleSize(storedNum(TITLE_SIZE_KEY,73,28,120),false);applySubtitleSize(storedNum(SUBTITLE_SIZE_KEY,44,18,72),false)}
-function resetDesignSettings(){applyLogoSize(88);applyLogoX(0);applyLogoY(0);applyTextX(0);applyTextY(0);applyTitleSize(73);applySubtitleSize(44);showToast('Logo & text layout reset')}
+function applyHeaderX(v,save=true){return applyDesignValue('--header-x',HEADER_X_KEY,v,-500,500,0,'headerXSlider','headerXValue',save)}
+function applyHeaderY(v,save=true){return applyDesignValue('--header-y',HEADER_Y_KEY,v,-250,450,0,'headerYSlider','headerYValue',save)}
+function applyHeaderScale(v,save=true){v=clamp(v,50,160,100);document.documentElement.style.setProperty('--header-scale',(v/100).toFixed(2));if($('headerScaleSlider'))$('headerScaleSlider').value=v;if($('headerScaleValue'))$('headerScaleValue').textContent=v+'%';document.querySelectorAll('.header-preset').forEach(b=>b.classList.toggle('active',+b.dataset.scale===v));if(save)localStorage.setItem(HEADER_SCALE_KEY,String(v));return v}
+function loadDesignSettings(){applyHeaderScale(storedNum(HEADER_SCALE_KEY,100,50,160),false);applyHeaderX(storedNum(HEADER_X_KEY,0,-500,500),false);applyHeaderY(storedNum(HEADER_Y_KEY,0,-250,450),false);applyLogoSize(storedNum(LOGO_SIZE_KEY,88,40,180),false);applyLogoX(storedNum(LOGO_X_KEY,0,-500,500),false);applyLogoY(storedNum(LOGO_Y_KEY,0,-250,350),false);applyTextX(storedNum(TEXT_X_KEY,0,-500,500),false);applyTextY(storedNum(TEXT_Y_KEY,0,-250,350),false);applyTitleSize(storedNum(TITLE_SIZE_KEY,73,28,120),false);applySubtitleSize(storedNum(SUBTITLE_SIZE_KEY,44,18,72),false)}
+function resetDesignSettings(){applyHeaderScale(100);applyHeaderX(0);applyHeaderY(0);applyLogoSize(88);applyLogoX(0);applyLogoY(0);applyTextX(0);applyTextY(0);applyTitleSize(73);applySubtitleSize(44);showToast('Header, logo & text layout reset')}
 
 
 function loadState(){
@@ -406,6 +435,11 @@ document.querySelectorAll('.gap-preset').forEach(b=>b.onclick=()=>applyVoteGap(b
 
 /* logo & text design settings */
 loadDesignSettings();requestAnimationFrame(fitPreviews);
+$('headerScaleSlider').oninput=e=>applyHeaderScale(e.target.value);
+$('headerXSlider').oninput=e=>applyHeaderX(e.target.value);
+$('headerYSlider').oninput=e=>applyHeaderY(e.target.value);
+document.querySelectorAll('.header-preset').forEach(b=>b.onclick=()=>applyHeaderScale(b.dataset.scale));
+$('centerHeaderBtn').onclick=()=>{applyHeaderX(0);applyHeaderY(0)};
 $('logoSizeSlider').oninput=e=>applyLogoSize(e.target.value);
 $('logoXSlider').oninput=e=>applyLogoX(e.target.value);
 $('logoYSlider').oninput=e=>applyLogoY(e.target.value);
